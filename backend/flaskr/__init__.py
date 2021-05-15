@@ -29,11 +29,7 @@ def create_app(test_config=None):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
-  '''
-  @TODO: 
-  Create an endpoint to handle GET requests 
-  for all available categories.
-  '''
+  
   @app.route('/categories')
   def retrieve_categories():
     selection = Category.query.order_by(Category.type).all()
@@ -46,14 +42,6 @@ def create_app(test_config=None):
       'categories': {category.id: category.type for category in selection}
     })
 
-  '''
-  @TODO: 
-  Create an endpoint to handle GET requests for questions, 
-  including pagination (every 10 questions). 
-  This endpoint should return a list of questions, 
-  number of total questions, current category, categories. 
-
-  '''
   @app.route('/questions')
   def retrieve_questions():
     selection = Question.query.all()
@@ -78,11 +66,6 @@ def create_app(test_config=None):
         'categories': categories_dict
     })
 
-  '''
-  @TODO: 
-  Create an endpoint to DELETE question using a question ID. 
-
-  '''
   @app.route('/questions/<question_id>', methods=['DELETE'])
   def delete_question(question_id):
     try:
@@ -94,13 +77,7 @@ def create_app(test_config=None):
       })
     except:
       abort(422)
-  '''
-  @TODO: 
-  Create an endpoint to POST a new question, 
-  which will require the question and answer text, 
-  category, and difficulty score.
-
-  '''
+ 
   @app.route("/questions", methods=['POST'])
   def add_question():
       body = request.get_json()
@@ -125,13 +102,7 @@ def create_app(test_config=None):
 
       except:
           abort(422)
-  '''
-  @TODO: 
-  Create a POST endpoint to get questions based on a search term. 
-  It should return any questions for whom the search term 
-  is a substring of the question. 
 
-  '''
   @app.route('/questions/search', methods=['POST'])
   def search_questions():
     body = request.get_json()
@@ -147,11 +118,7 @@ def create_app(test_config=None):
         'current_category': None
       })
     abort(404)
-  '''
-  @TODO: 
-  Create a GET endpoint to get questions based on category. 
 
-  '''
   @app.route('/categories/<int:category_id>/questions', methods=['GET'])
   def retrieve_questions_by_category(category_id):
     try:
@@ -166,14 +133,6 @@ def create_app(test_config=None):
     except:
       abort(404)
 
-  '''
-  @TODO: 
-  Create a POST endpoint to get questions to play the quiz. 
-  This endpoint should take category and previous question parameters 
-  and return a random questions within the given category, 
-  if provided, and that is not one of the previous questions. 
-
-  '''
   @app.route('/quizzes', methods=['POST'])
   def play_quiz():
 
@@ -203,11 +162,7 @@ def create_app(test_config=None):
           })
       except:
           abort(422)
-  '''
-  @TODO: 
-  Create error handlers for all expected errors 
-  including 404 and 422. 
-  '''
+ 
   @app.errorhandler(404)
   def not_found(error):
       return jsonify({
